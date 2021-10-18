@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29424.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abseentism", "Abseentism\Abseentism.csproj", "{A982954D-2F95-4FB2-B842-7BFB80B2874E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abseentism.Test", "Abseentism.Test\Abseentism.Test.csproj", "{45E770FB-88FF-4F16-9858-E5B3C983297F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A982954D-2F95-4FB2-B842-7BFB80B2874E} = {A982954D-2F95-4FB2-B842-7BFB80B2874E}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A982954D-2F95-4FB2-B842-7BFB80B2874E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A982954D-2F95-4FB2-B842-7BFB80B2874E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A982954D-2F95-4FB2-B842-7BFB80B2874E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A982954D-2F95-4FB2-B842-7BFB80B2874E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E770FB-88FF-4F16-9858-E5B3C983297F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E770FB-88FF-4F16-9858-E5B3C983297F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E770FB-88FF-4F16-9858-E5B3C983297F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E770FB-88FF-4F16-9858-E5B3C983297F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {33AA91F7-F52A-4BA4-B8D0-A201775C403F}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,383 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AbseentismContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Abseentisms">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="AgentId" Type="int" />
+          <Property Name="AbsenceId" Type="int" />
+          <Property Name="currentSchedule" Type="time" Precision="7" />
+          <Property Name="newSchedule" Type="time" Precision="7" />
+          <Property Name="dateNewSchedule" Type="date" />
+          <Property Name="reasonOfChange" Type="varchar" MaxLength="150" />
+          <Property Name="absentDate" Type="date" />
+          <Property Name="lateDate" Type="date" />
+          <Property Name="lateReason" Type="varchar" MaxLength="150" />
+          <Property Name="lateOriginalTime" Type="time" Precision="7" />
+          <Property Name="lateActualTime" Type="time" Precision="7" />
+          <Property Name="id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AbsenceTypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="code" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Agents">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="avayaId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="surname" Type="varchar" MaxLength="50" />
+          <Property Name="countryId" Type="int" />
+          <Property Name="teamId" Type="int" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="country" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Teams">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="idCountry" Type="int" />
+        </EntityType>
+        <Association Name="FK_Abseentisms_AbsenceType">
+          <End Role="AbsenceTypes" Type="Self.AbsenceTypes" Multiplicity="0..1" />
+          <End Role="Abseentisms" Type="Self.Abseentisms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbsenceTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Abseentisms">
+              <PropertyRef Name="AbsenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Abseentisms_Agents">
+          <End Role="Agents" Type="Self.Agents" Multiplicity="0..1" />
+          <End Role="Abseentisms" Type="Self.Abseentisms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agents">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Abseentisms">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agents_Country">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="Agents" Type="Self.Agents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Agents">
+              <PropertyRef Name="countryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agents_Teams">
+          <End Role="Teams" Type="Self.Teams" Multiplicity="0..1" />
+          <End Role="Agents" Type="Self.Agents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Agents">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teams_Country">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="Teams" Type="Self.Teams" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Teams">
+              <PropertyRef Name="idCountry" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AbseentismContextStoreContainer">
+          <EntitySet Name="Abseentisms" EntityType="Self.Abseentisms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AbsenceTypes" EntityType="Self.AbsenceTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Agents" EntityType="Self.Agents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Abseentisms_AbsenceType" Association="Self.FK_Abseentisms_AbsenceType">
+            <End Role="AbsenceTypes" EntitySet="AbsenceTypes" />
+            <End Role="Abseentisms" EntitySet="Abseentisms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Abseentisms_Agents" Association="Self.FK_Abseentisms_Agents">
+            <End Role="Agents" EntitySet="Agents" />
+            <End Role="Abseentisms" EntitySet="Abseentisms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agents_Country" Association="Self.FK_Agents_Country">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Agents" EntitySet="Agents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agents_Teams" Association="Self.FK_Agents_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Agents" EntitySet="Agents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teams_Country" Association="Self.FK_Teams_Country">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Teams" EntitySet="Teams" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AbseentismContext" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Abseentisms">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="AgentId" Type="Int32" />
+          <Property Name="AbsenceId" Type="Int32" />
+          <Property Name="currentSchedule" Type="Time" Precision="7" />
+          <Property Name="newSchedule" Type="Time" Precision="7" />
+          <Property Name="dateNewSchedule" Type="DateTime" Precision="0" />
+          <Property Name="reasonOfChange" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="absentDate" Type="DateTime" Precision="0" />
+          <Property Name="lateDate" Type="DateTime" Precision="0" />
+          <Property Name="lateReason" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="lateOriginalTime" Type="Time" Precision="7" />
+          <Property Name="lateActualTime" Type="Time" Precision="7" />
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AbsenceTypes" Relationship="Self.FK_Abseentisms_AbsenceType" FromRole="Abseentisms" ToRole="AbsenceTypes" />
+          <NavigationProperty Name="Agents" Relationship="Self.FK_Abseentisms_Agents" FromRole="Abseentisms" ToRole="Agents" />
+        </EntityType>
+        <EntityType Name="AbsenceTypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Abseentisms" Relationship="Self.FK_Abseentisms_AbsenceType" FromRole="AbsenceTypes" ToRole="Abseentisms" />
+        </EntityType>
+        <EntityType Name="Agents">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="avayaId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="teamId" Type="Int32" />
+          <NavigationProperty Name="Abseentisms" Relationship="Self.FK_Abseentisms_Agents" FromRole="Agents" ToRole="Abseentisms" />
+          <NavigationProperty Name="Teams" Relationship="Self.FK_Agents_Teams" FromRole="Agents" ToRole="Teams" />
+          <Property Name="countryId" Type="Int32" />
+          <NavigationProperty Name="Countries" Relationship="AbseentismContext.FK_Agents_Country" FromRole="Agents" ToRole="Countries" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Teams" Relationship="Self.FK_Teams_Country" FromRole="Countries" ToRole="Teams" />
+          <NavigationProperty Name="Agents" Relationship="AbseentismContext.FK_Agents_Country" FromRole="Countries" ToRole="Agents" />
+        </EntityType>
+        <EntityType Name="Teams">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="idCountry" Type="Int32" />
+          <NavigationProperty Name="Agents" Relationship="Self.FK_Agents_Teams" FromRole="Teams" ToRole="Agents" />
+          <NavigationProperty Name="Countries" Relationship="Self.FK_Teams_Country" FromRole="Teams" ToRole="Countries" />
+        </EntityType>
+        <Association Name="FK_Abseentisms_AbsenceType">
+          <End Role="AbsenceTypes" Type="Self.AbsenceTypes" Multiplicity="0..1" />
+          <End Role="Abseentisms" Type="Self.Abseentisms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbsenceTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Abseentisms">
+              <PropertyRef Name="AbsenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Abseentisms_Agents">
+          <End Role="Agents" Type="Self.Agents" Multiplicity="0..1" />
+          <End Role="Abseentisms" Type="Self.Abseentisms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agents">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Abseentisms">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agents_Teams">
+          <End Role="Teams" Type="Self.Teams" Multiplicity="0..1" />
+          <End Role="Agents" Type="Self.Agents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Agents">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teams_Country">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="Teams" Type="Self.Teams" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Teams">
+              <PropertyRef Name="idCountry" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AbseentismEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Abseentisms" EntityType="Self.Abseentisms" />
+          <EntitySet Name="AbsenceTypes" EntityType="Self.AbsenceTypes" />
+          <EntitySet Name="Agents" EntityType="Self.Agents" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" />
+          <EntitySet Name="Teams" EntityType="Self.Teams" />
+          <AssociationSet Name="FK_Abseentisms_AbsenceType" Association="Self.FK_Abseentisms_AbsenceType">
+            <End Role="AbsenceTypes" EntitySet="AbsenceTypes" />
+            <End Role="Abseentisms" EntitySet="Abseentisms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Abseentisms_Agents" Association="Self.FK_Abseentisms_Agents">
+            <End Role="Agents" EntitySet="Agents" />
+            <End Role="Abseentisms" EntitySet="Abseentisms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agents_Teams" Association="Self.FK_Agents_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Agents" EntitySet="Agents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teams_Country" Association="Self.FK_Teams_Country">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Teams" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agents_Country" Association="AbseentismContext.FK_Agents_Country">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Agents" EntitySet="Agents" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_Agents_Country">
+          <End Type="AbseentismContext.Countries" Role="Countries" Multiplicity="0..1" />
+          <End Type="AbseentismContext.Agents" Role="Agents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Agents">
+              <PropertyRef Name="countryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AbseentismContextStoreContainer" CdmEntityContainer="AbseentismEntities">
+          <EntitySetMapping Name="Abseentisms">
+            <EntityTypeMapping TypeName="AbseentismContext.Abseentisms">
+              <MappingFragment StoreEntitySet="Abseentisms">
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="AbsenceId" ColumnName="AbsenceId" />
+                <ScalarProperty Name="currentSchedule" ColumnName="currentSchedule" />
+                <ScalarProperty Name="newSchedule" ColumnName="newSchedule" />
+                <ScalarProperty Name="dateNewSchedule" ColumnName="dateNewSchedule" />
+                <ScalarProperty Name="reasonOfChange" ColumnName="reasonOfChange" />
+                <ScalarProperty Name="absentDate" ColumnName="absentDate" />
+                <ScalarProperty Name="lateDate" ColumnName="lateDate" />
+                <ScalarProperty Name="lateReason" ColumnName="lateReason" />
+                <ScalarProperty Name="lateOriginalTime" ColumnName="lateOriginalTime" />
+                <ScalarProperty Name="lateActualTime" ColumnName="lateActualTime" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AbsenceTypes">
+            <EntityTypeMapping TypeName="AbseentismContext.AbsenceTypes">
+              <MappingFragment StoreEntitySet="AbsenceTypes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="code" ColumnName="code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Agents">
+            <EntityTypeMapping TypeName="AbseentismContext.Agents">
+              <MappingFragment StoreEntitySet="Agents">
+                <ScalarProperty Name="countryId" ColumnName="countryId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="avayaId" ColumnName="avayaId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="teamId" ColumnName="teamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="AbseentismContext.Countries">
+              <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="country" ColumnName="country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="AbseentismContext.Teams">
+              <MappingFragment StoreEntitySet="Teams">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="idCountry" ColumnName="idCountry" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
